@@ -1,4 +1,4 @@
-package com.ligh.blog
+package com.ligh.blog.activity
 
 import android.os.Bundle
 import com.google.android.material.snackbar.Snackbar
@@ -9,6 +9,7 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
+import com.ligh.blog.R
 import com.ligh.blog.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
