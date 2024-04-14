@@ -12,6 +12,7 @@ import android.view.MenuItem
 import com.ligh.blog.R
 import com.ligh.blog.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
+import java.lang.ref.WeakReference
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -21,6 +22,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        this.registerActivityLifecycleCallbacks()
+        WeakReference
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)

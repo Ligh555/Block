@@ -1,4 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <application>
+        <activity
+            android:name=".jiagou.mvvm.MvvmActivity"
+            android:exported="false" />
+        <activity
+            android:name=".jiagou.mvc.MvcActivity"
+            android:exported="false" />
+        <activity
+            android:name=".jiagou.mvp.MvpActivityView"
+            android:exported="false" />
+    </application>
+
 </manifest>
