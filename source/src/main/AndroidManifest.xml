@@ -3,6 +3,12 @@
 
     <application>
         <activity
+            android:name=".hotfix.MainActivityHotfix"
+            android:exported="true" />
+        <activity
+            android:name=".slide.SlideActivity"
+            android:exported="true" />
+        <activity
             android:name=".jiagou.mvvm.MvvmActivity"
             android:exported="false" />
         <activity
