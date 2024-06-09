@@ -1,61 +1,97 @@
 package com.ligh.blog.activity
 
-import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
-import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
-import android.view.Menu
-import android.view.MenuItem
+import android.view.KeyEvent
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.ligh.block.source.binding
 import com.ligh.blog.R
 import com.ligh.blog.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
+
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
 
-    private lateinit var appBarConfiguration: AppBarConfiguration
-    private lateinit var binding: ActivityMainBinding
+    override val viewBinding: ActivityMainBinding by binding()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun initViewBinding() {
+        viewBinding.recycleView.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter  = object  : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+                override fun onCreateViewHolder(
+                    parent: ViewGroup,
+                    viewType: Int
+                ): RecyclerView.ViewHolder {
+                    val view = LayoutInflater.from(parent.context).inflate(R.layout.test1, parent, false)
+                    return MyViewHolder(view)
+                }
 
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+                override fun getItemCount(): Int {
+                    return 50
+                }
 
-        setSupportActionBar(binding.toolbar)
+                override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
-        val navController = findNavController(R.id.nav_host_fragment_content_main)
-        appBarConfiguration = AppBarConfiguration(navController.graph)
-        setupActionBarWithNavController(navController, appBarConfiguration)
+                }
 
-        binding.fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
+            }
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.menu_main, menu)
-        return true
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        when (keyCode) {
+            KeyEvent.KEYCODE_BACK -> {//返回键
+                return if (supportFragmentManager.backStackEntryCount < 1) {
+                    AlertDialog.Builder(this)
+                        .setTitle("退出应用")
+                        .setMessage("确定要退出应用吗？")
+                        .setPositiveButton("确定") { _, _ ->
+                            finish()
+                        }
+                        .setNegativeButton("取消", null)
+                        .show()
+                    true
+                } else {
+                    supportFragmentManager.popBackStack()
+                    true
+                }
+            }
+
+            KeyEvent.KEYCODE_HOME -> {//HOME键
+                Toast.makeText(this, "home", Toast.LENGTH_SHORT).show()
+            }
+
+            KeyEvent.KEYCODE_NUMPAD_0 -> {//数字键
+                Toast.makeText(this, "F4", Toast.LENGTH_SHORT).show()
+            }
+        }
+        return super.onKeyDown(keyCode, event)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        return when (item.itemId) {
-            R.id.action_settings -> true
-            else -> super.onOptionsItemSelected(item)
+    class MyAdapter : RecyclerView.Adapter<MyViewHolder>() {
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
+            val view = LayoutInflater.from(parent.context).inflate(R.layout.test, parent, false)
+            return MyViewHolder(view)
+        }
+
+        override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+
+        }
+
+        override fun getItemCount(): Int {
+            return 10
         }
     }
 
-    override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(R.id.nav_host_fragment_content_main)
-        return navController.navigateUp(appBarConfiguration)
-                || super.onSupportNavigateUp()
+
+    class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+
     }
+
 }

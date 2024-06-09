@@ -1,6 +1,6 @@
 pluginManagement {
     repositories {
-        google()
+        mavenLocal()
         maven {
             setUrl("https://maven.aliyun.com/repository/google")
         }
@@ -13,13 +13,14 @@ pluginManagement {
         maven {
             setUrl("https://maven.aliyun.com/repository/gradle-plugin")
         }
+        google()
         mavenCentral()
-        gradlePluginPortal()
     }
 }
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
+        mavenLocal()
         maven {
             setUrl("https://maven.aliyun.com/repository/google")
         }
@@ -39,4 +40,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "Blog"
 include(":app")
-include(":source")
+include(":android")
+include(":JavaTest")
