@@ -16,7 +16,10 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        initMessageLog()
+    }
 
+    private fun initMessageLog(){
         Looper.getMainLooper().setMessageLogging(looperMonitor)
     }
 }
