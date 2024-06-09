@@ -1,4 +1,4 @@
-package com.ligh.blog.base
+package com.ligh.blog
 
 import android.app.Application
 import android.os.Looper
