@@ -24,14 +24,14 @@ public class SingleInstance {
 
     //双重校验 线程安全
     public SingleInstance getInstance2() {
-        if (singleInstance == null) {
+        if (singleInstance1 == null) {
             synchronized (SingleInstance.class) {
-                if (singleInstance == null) {
-                    singleInstance = new SingleInstance();
+                if (singleInstance1 == null) {
+                    singleInstance1 = new SingleInstance();
                 }
             }
         }
-        return singleInstance;
+        return singleInstance1;
     }
 
 
