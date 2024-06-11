@@ -1,4 +1,4 @@
-package com.ligh.block.source.slide
+package com.ligh.block.source.slide.nestscroller
 
 import android.content.Context
 import android.util.AttributeSet

@@ -46,6 +46,7 @@ dependencies {
     implementation("com.google.android.material:material:1.8.0")
     implementation("com.google.dagger:hilt-android:2.48")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    implementation("androidx.viewpager2:viewpager2:1.0.0")
     implementation("com.squareup.okio:okio:3.9.0")
     kapt("com.google.dagger:hilt-android-compiler:2.48")
 
