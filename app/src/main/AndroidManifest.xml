@@ -14,7 +14,7 @@
         android:theme="@style/Theme.Blog"
         tools:targetApi="31">
         <activity
-            android:name="com.ligh.block.source.touch.TouchActivity"
+            android:name="com.ligh.block.source.slide.recycleview.scroller.RecycleViewScrollerActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.Blog">

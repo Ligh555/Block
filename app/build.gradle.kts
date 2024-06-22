@@ -7,12 +7,12 @@ plugins {
 
 android {
     namespace = "com.ligh.blog"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.ligh.blog"
         minSdk = 24
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 

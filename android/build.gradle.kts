@@ -46,9 +46,15 @@ dependencies {
     implementation("com.google.android.material:material:1.8.0")
     implementation("com.google.dagger:hilt-android:2.48")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-    implementation("androidx.viewpager2:viewpager2:1.0.0")
+    implementation("androidx.viewpager2:viewpager2:1.1.0")
     implementation("com.squareup.okio:okio:3.9.0")
     kapt("com.google.dagger:hilt-android-compiler:2.48")
+
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
+
+    implementation("androidx.activity:activity-ktx:1.8.0")
+    implementation("androidx.fragment:fragment-ktx:1.5.6")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

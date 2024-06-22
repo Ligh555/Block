@@ -1,0 +1,5 @@
+<com.ligh.block.source.slide.recycleview.scroller.TabLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fl_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" />
