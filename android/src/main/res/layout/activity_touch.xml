@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.ligh.block.source.touch.TestFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".touch.TouchActivity">
+
+    <com.ligh.block.source.touch.TestFrameLayout1
+        android:layout_width="100dp"
+        android:layout_height="100dp" />
+
+    <com.ligh.block.source.touch.TestFrameLayout2
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="@color/design_default_color_on_primary"/>
+
+    <com.ligh.block.source.touch.TestFrameLayout3
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="@color/cardview_dark_background"/>
+
+
+</com.ligh.block.source.touch.TestFrameLayout>
