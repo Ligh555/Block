@@ -3,6 +3,10 @@
 
     <application>
         <activity
+            android:name=".exception.ExceptionActivity"
+            android:process=":exception"
+            android:exported="false" />
+        <activity
             android:name=".hotfix.MainActivityHotfix"
             android:exported="true" />
         <activity

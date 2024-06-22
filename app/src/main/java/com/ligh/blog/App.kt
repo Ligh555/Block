@@ -2,6 +2,7 @@ package com.ligh.blog
 
 import android.app.Application
 import android.os.Looper
+import com.ligh.block.source.exception.CrashHandler
 import com.ligh.block.source.handler.LooperMonitor
 
 import dagger.hilt.android.HiltAndroidApp
@@ -21,5 +22,6 @@ class App : Application() {
 
     private fun initMessageLog(){
         Looper.getMainLooper().setMessageLogging(looperMonitor)
+        CrashHandler.init(this)
     }
 }
