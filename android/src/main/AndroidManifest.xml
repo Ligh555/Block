@@ -3,9 +3,12 @@
 
     <application>
         <activity
+            android:name=".tablayout.TabLayoutActivity"
+            android:exported="true" />
+        <activity
             android:name=".exception.ExceptionActivity"
-            android:process=":exception"
-            android:exported="false" />
+            android:exported="false"
+            android:process=":exception" />
         <activity
             android:name=".hotfix.MainActivityHotfix"
             android:exported="true" />
