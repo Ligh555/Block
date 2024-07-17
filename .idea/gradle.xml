@@ -12,6 +12,8 @@
             <option value="$PROJECT_DIR$/JavaTest" />
             <option value="$PROJECT_DIR$/android" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/base" />
+            <option value="$PROJECT_DIR$/leakcanary" />
           </set>
         </option>
         <option name="resolveExternalAnnotations" value="false" />

@@ -1,10 +1,9 @@
 package com.ligh.block.source.exception
 
-import com.ligh.block.source.BaseActivity
-import com.ligh.block.source.binding
+import com.ligh.base.activity.binding
 import com.ligh.block.source.databinding.ActivityExceptionBinding
 
-class ExceptionActivity : BaseActivity() {
+class ExceptionActivity : com.ligh.base.activity.BaseActivity() {
 
     companion object {
 

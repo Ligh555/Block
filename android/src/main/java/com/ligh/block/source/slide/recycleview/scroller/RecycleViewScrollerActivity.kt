@@ -5,12 +5,11 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.ligh.block.source.BaseActivity
-import com.ligh.block.source.binding
+import com.ligh.base.activity.binding
 import com.ligh.block.source.databinding.ActivityRecycleviewScrollerBinding
 
 
-class RecycleViewScrollerActivity : BaseActivity() {
+class RecycleViewScrollerActivity : com.ligh.base.activity.BaseActivity() {
 
     private val viewModel: MainViewModel by viewModels()
     override val viewBinding: ActivityRecycleviewScrollerBinding by binding()

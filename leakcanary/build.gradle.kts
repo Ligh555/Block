@@ -1,22 +1,17 @@
 plugins {
-    id("com.android.application")
+    id("com.android.library")
     id("org.jetbrains.kotlin.android")
-    kotlin("kapt")
-    id("com.google.dagger.hilt.android")
 }
 
 android {
-    namespace = "com.ligh.blog"
+    namespace = "com.ligh.leakcanary"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.ligh.blog"
         minSdk = 24
-        targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
@@ -35,22 +30,10 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
-    buildFeatures {
-        viewBinding = true
-        aidl = true
-    }
 }
 
 dependencies {
-    implementation(project(":android"))
-    implementation(libs.bundles.navigation.ktx)
+
     implementation(libs.bundles.andorid.base)
-    implementation(libs.bundles.hilt)
-    kapt(libs.bundles.hilt.compiler)
-
-    debugImplementation("com.squareup.leakcanary:leakcanary-android:2.7")
-
-    implementation(project(":base"))
-
 
 }

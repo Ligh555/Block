@@ -8,7 +8,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.ligh.block.source.binding
+import com.ligh.base.activity.binding
 import com.ligh.blog.R
 import com.ligh.blog.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint

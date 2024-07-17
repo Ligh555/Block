@@ -42,3 +42,5 @@ rootProject.name = "Blog"
 include(":app")
 include(":android")
 include(":JavaTest")
+include(":base")
+include(":leakcanary")

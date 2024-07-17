@@ -1,0 +1,35 @@
+[versions]
+coreKtx = "1.9.0"
+appcompat = "1.6.1"
+material = "1.8.0"
+constraintlayout = "2.1.4"
+navigation_ktx = "2.5.3"
+hilt = "2.48"
+dagger = "2.40.5"
+
+[libraries]
+coreKtx = { module = "androidx.core:core-ktx", version.ref = "coreKtx" }
+appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
+material = { module = "com.google.android.material:material", version.ref = "material" }
+navigation_ui_ktx = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigation_ktx" }
+navigation_fragment_ktx = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigation_ktx" }
+constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintlayout" }
+hilt = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
+hilt_compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
+dagger = { module = "com.google.dagger:dagger", version.ref = "dagger" }
+dagger_compiler = { module = "com.google.dagger:dagger-compiler", version.ref = "dagger" }
+
+
+[bundles]
+andorid_base = ["coreKtx", "appcompat", "material", "constraintlayout"]
+navigation_ktx = ["navigation_ui_ktx", "navigation_fragment_ktx"]
+hilt = ["hilt", "dagger"]
+hilt_compiler = ["hilt_compiler", "dagger_compiler"]
+
+[plugins]
+application = { id = "com.android.application" }
+
+
+
+
+

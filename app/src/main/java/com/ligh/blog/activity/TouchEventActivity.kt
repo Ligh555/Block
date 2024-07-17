@@ -8,7 +8,7 @@ import android.view.MotionEvent.ACTION_DOWN
 import android.view.MotionEvent.ACTION_MOVE
 import android.view.MotionEvent.ACTION_OUTSIDE
 import android.view.MotionEvent.ACTION_UP
-import com.ligh.block.source.binding
+import com.ligh.base.activity.binding
 import com.ligh.blog.databinding.ActivityMain4Binding
 
 class TouchEventActivity : BaseActivity() {

@@ -1,4 +1,4 @@
-package com.ligh.block.source
+package com.ligh.base.activity
 
 import android.app.Activity
 import android.view.LayoutInflater

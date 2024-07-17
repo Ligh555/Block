@@ -1,10 +1,9 @@
 package com.ligh.block.source.tablayout
 
-import com.ligh.block.source.BaseActivity
-import com.ligh.block.source.binding
+import com.ligh.base.activity.binding
 import com.ligh.block.source.databinding.ActivityTabLayoutBinding
 
-class TabLayoutActivity : BaseActivity() {
+class TabLayoutActivity : com.ligh.base.activity.BaseActivity() {
     override val viewBinding: ActivityTabLayoutBinding by binding()
 
     override fun initViewBinding() {

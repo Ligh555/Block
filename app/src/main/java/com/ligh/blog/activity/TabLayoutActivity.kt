@@ -2,7 +2,7 @@ package com.ligh.blog.activity
 
 import android.widget.Toast
 import com.google.android.material.tabs.TabLayout
-import com.ligh.block.source.binding
+import com.ligh.base.activity.binding
 import com.ligh.blog.databinding.ActivityMain3Binding
 
 class TabLayoutActivity : BaseActivity() {

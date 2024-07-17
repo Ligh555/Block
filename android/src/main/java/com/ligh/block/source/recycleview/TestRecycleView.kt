@@ -37,23 +37,23 @@ class TestRecycleView @JvmOverloads constructor(
         }
 
         override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
-            if (position == 6) {
-                holder.itemView.setOnClickListener {
-                    if (testSave == null) {
-                        //保存当前recycleview 的滑动状态
-                        testSave = this@TestRecycleView.layoutManager?.onSaveInstanceState()
+            if (position == mData.lastIndex) {
+
+                repeat(4){
+                    (holder.itemView as ViewGroup).run {
+                        this.addView(
+                            LayoutInflater.from(holder.itemView.context)
+                                .inflate(
+                                    R.layout.list_item_normal,
+                                    holder.itemView.rootView as ViewGroup,
+                                    false
+                                ))
                     }
-                    (it as ViewGroup).addView(
-                        LayoutInflater.from(holder.itemView.context)
-                            .inflate(
-                                R.layout.list_item_normal,
-                                holder.itemView.rootView as ViewGroup,
-                                false
-                            )
-                    )
-                    testSave?.let {
-                        // 恢复recycleview 的滑动状态
-                        this@TestRecycleView.layoutManager?.onRestoreInstanceState(it)
+                }
+                holder.itemView.setOnClickListener {
+                    (it as ViewGroup).run {
+                        this.removeViewAt(childCount - 1)
+
                     }
                 }
             }
