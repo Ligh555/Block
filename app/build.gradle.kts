@@ -43,14 +43,14 @@ android {
 
 dependencies {
     implementation(project(":android"))
+    implementation(project(":base"))
+    implementation(project(":ipc"))
     implementation(libs.bundles.navigation.ktx)
     implementation(libs.bundles.andorid.base)
     implementation(libs.bundles.hilt)
     kapt(libs.bundles.hilt.compiler)
 
     debugImplementation("com.squareup.leakcanary:leakcanary-android:2.7")
-
-    implementation(project(":base"))
 
 
 }

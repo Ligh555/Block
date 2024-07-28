@@ -1,11 +1,12 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
+    kotlin("kapt")
 }
 
 android {
-    namespace = "com.ligh.leakcanary"
-    compileSdk = 34
+    namespace = "com.ligh.blog.ipc"
+    compileSdk = 33
 
     defaultConfig {
         minSdk = 24
@@ -30,11 +31,18 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
+    buildFeatures {
+        viewBinding =true
+        dataBinding = true
+        aidl =true
+    }
 }
 
 dependencies {
-
+    implementation(project(":base"))
+    implementation(libs.bundles.navigation.ktx)
     implementation(libs.bundles.andorid.base)
-    implementation(libs.junit.ktx)
+    implementation(libs.activity)
 
 }

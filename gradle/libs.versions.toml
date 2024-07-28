@@ -6,6 +6,9 @@ constraintlayout = "2.1.4"
 navigation_ktx = "2.5.3"
 hilt = "2.48"
 dagger = "2.40.5"
+kotlin = "1.9.0"
+activity = "1.8.0"
+junitKtx = "1.2.1"
 
 [libraries]
 coreKtx = { module = "androidx.core:core-ktx", version.ref = "coreKtx" }
@@ -18,16 +21,19 @@ hilt = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt_compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
 dagger = { module = "com.google.dagger:dagger", version.ref = "dagger" }
 dagger_compiler = { module = "com.google.dagger:dagger-compiler", version.ref = "dagger" }
+activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
+junit-ktx = { group = "androidx.test.ext", name = "junit-ktx", version.ref = "junitKtx" }
 
 
 [bundles]
-andorid_base = ["coreKtx", "appcompat", "material", "constraintlayout"]
+andorid_base = ["junit-ktx","coreKtx", "appcompat", "material", "constraintlayout"]
 navigation_ktx = ["navigation_ui_ktx", "navigation_fragment_ktx"]
 hilt = ["hilt", "dagger"]
 hilt_compiler = ["hilt_compiler", "dagger_compiler"]
 
 [plugins]
 application = { id = "com.android.application" }
+jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 
 
 

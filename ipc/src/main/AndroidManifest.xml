@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <application>
+        <service
+            android:name=".service.BinderPoolService"
+            android:enabled="true"
+            android:exported="true"></service>
+
+        <activity
+            android:name=".activity.IPCActivity"
+            android:exported="true" />
+
+        <service
+            android:name=".service.RemoteService"
+            android:exported="true"
+            android:process=":test" />
+    </application>
+
+</manifest>
