@@ -8,7 +8,11 @@ hilt = "2.48"
 dagger = "2.40.5"
 kotlin = "1.9.0"
 activity = "1.8.0"
+biometric = "1.1.0"
+
+
 junitKtx = "1.2.1"
+kotlinVersion = "1.9.0"
 
 [libraries]
 coreKtx = { module = "androidx.core:core-ktx", version.ref = "coreKtx" }
@@ -22,7 +26,12 @@ hilt_compiler = { module = "com.google.dagger:hilt-android-compiler", version.re
 dagger = { module = "com.google.dagger:dagger", version.ref = "dagger" }
 dagger_compiler = { module = "com.google.dagger:dagger-compiler", version.ref = "dagger" }
 activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
+biometric = { group = "androidx.biometric", name = "biometric", version.ref = "biometric" }
+
+
 junit-ktx = { group = "androidx.test.ext", name = "junit-ktx", version.ref = "junitKtx" }
+[plugins]
+jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlinVersion" }
 
 
 [bundles]
@@ -30,10 +39,6 @@ andorid_base = ["junit-ktx","coreKtx", "appcompat", "material", "constraintlayou
 navigation_ktx = ["navigation_ui_ktx", "navigation_fragment_ktx"]
 hilt = ["hilt", "dagger"]
 hilt_compiler = ["hilt_compiler", "dagger_compiler"]
-
-[plugins]
-application = { id = "com.android.application" }
-jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 
 
 

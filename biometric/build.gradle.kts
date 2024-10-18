@@ -4,13 +4,12 @@ plugins {
 }
 
 android {
-    namespace = "com.ligh.leakcanary"
+    namespace = "com.ligh.biometric"
     compileSdk = 34
 
     defaultConfig {
         minSdk = 23
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
 
@@ -30,11 +29,14 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
-
+    implementation(project(":base"))
     implementation(libs.bundles.andorid.base)
-    implementation(libs.junit.ktx)
-
+    implementation(libs.biometric)
+    implementation(libs.activity)
 }

@@ -13,6 +13,7 @@
             <option value="$PROJECT_DIR$/android" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/base" />
+            <option value="$PROJECT_DIR$/biometric" />
             <option value="$PROJECT_DIR$/ipc" />
             <option value="$PROJECT_DIR$/leakcanary" />
           </set>

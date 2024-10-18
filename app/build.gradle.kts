@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId = "com.ligh.blog"
-        minSdk = 24
+        minSdk = 23
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -45,6 +45,7 @@ dependencies {
     implementation(project(":android"))
     implementation(project(":base"))
     implementation(project(":ipc"))
+    implementation(project(":biometric"))
     implementation(libs.bundles.navigation.ktx)
     implementation(libs.bundles.andorid.base)
     implementation(libs.bundles.hilt)
