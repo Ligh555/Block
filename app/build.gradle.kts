@@ -46,6 +46,7 @@ dependencies {
     implementation(project(":base"))
     implementation(project(":ipc"))
     implementation(project(":biometric"))
+    implementation(project(":wheelView"))
     implementation(libs.bundles.navigation.ktx)
     implementation(libs.bundles.andorid.base)
     implementation(libs.bundles.hilt)

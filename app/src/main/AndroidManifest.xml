@@ -14,7 +14,7 @@
         android:theme="@style/Theme.Blog"
         tools:targetApi="31">
         <activity
-            android:name="com.ligh.biometric.BiometricActivity"
+            android:name="com.ligh.wheelview.activity.WheelActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.Blog">
