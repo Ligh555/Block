@@ -16,6 +16,7 @@
             <option value="$PROJECT_DIR$/biometric" />
             <option value="$PROJECT_DIR$/ipc" />
             <option value="$PROJECT_DIR$/leakcanary" />
+            <option value="$PROJECT_DIR$/wheelView" />
           </set>
         </option>
         <option name="resolveExternalAnnotations" value="false" />

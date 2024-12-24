@@ -3,6 +3,9 @@
 
     <application>
         <activity
+            android:name=".stocklist.StockListActivity"
+            android:exported="true" />
+        <activity
             android:name=".coordinatorLayout.CollapsingToolbarLayoutActivity"
             android:exported="true" />
         <activity

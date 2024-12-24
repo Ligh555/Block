@@ -50,7 +50,7 @@ class MainAdapter(context: Context) : ListAdapter<ItemModel, MainAdapter.MainVie
                 }
                 temp
             }
-            delay(50)
+            delay(8000)
             submitList(newItems)
         }
     }
