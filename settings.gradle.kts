@@ -15,6 +15,9 @@ pluginManagement {
         }
         google()
         mavenCentral()
+        maven {
+            setUrl("https://jitpack.io")
+        }
     }
 }
 dependencyResolutionManagement {
@@ -35,6 +38,9 @@ dependencyResolutionManagement {
         }
         google()
         mavenCentral()
+        maven {
+            setUrl("https://jitpack.io")
+        }
     }
 }
 

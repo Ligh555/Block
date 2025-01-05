@@ -53,6 +53,5 @@ dependencies {
     kapt(libs.bundles.hilt.compiler)
 
     debugImplementation("com.squareup.leakcanary:leakcanary-android:2.7")
-
-
+    implementation ("com.bytedance.tools.codelocator:codelocator-lancet-all:2.0.4")
 }
