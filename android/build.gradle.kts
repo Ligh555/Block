@@ -56,6 +56,7 @@ dependencies {
 
     implementation("androidx.activity:activity-ktx:1.8.0")
     implementation("androidx.fragment:fragment-ktx:1.5.6")
+    implementation("com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-andx-1")
 
     implementation(project(":base"))
 
