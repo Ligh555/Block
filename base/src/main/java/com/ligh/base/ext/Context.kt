@@ -15,6 +15,6 @@ fun Context.getBitMap( @DrawableRes id :Int, width :Int): Bitmap{
     //原始宽度
     options.inDensity = options.outWidth
     //目标宽度
-    options.outWidth = width
+    options.inTargetDensity = width
     return  BitmapFactory.decodeResource(resources,id,options)
 }
