@@ -1,8 +1,10 @@
 package com.ligh.blog.activity
 
+import android.graphics.Color
 import android.widget.Toast
 import com.ligh.base.activity.binding
 import com.ligh.blog.databinding.ActivityTestBinding
+import com.ligh.blog.test.viewpager.MyAdapter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -41,7 +43,12 @@ class TestActivity : BaseActivity() {
                     }
                 }
             }
+
+            viewPager.adapter = MyAdapter().apply {
+                setData(arrayListOf(Color.RED, Color.YELLOW, Color.BLUE, Color.GREEN))
+            }
         }
+
 
     }
 }
