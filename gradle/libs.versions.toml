@@ -1,6 +1,7 @@
 [versions]
 coreKtx = "1.9.0"
 appcompat = "1.6.1"
+kotlinxCoroutinesCore = "1.8.0"
 material = "1.8.0"
 constraintlayout = "2.1.4"
 navigation_ktx = "2.5.3"
@@ -17,6 +18,7 @@ kotlinVersion = "1.9.0"
 [libraries]
 coreKtx = { module = "androidx.core:core-ktx", version.ref = "coreKtx" }
 appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutinesCore" }
 material = { module = "com.google.android.material:material", version.ref = "material" }
 navigation_ui_ktx = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigation_ktx" }
 navigation_fragment_ktx = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigation_ktx" }

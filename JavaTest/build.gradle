@@ -1,9 +1,21 @@
 plugins {
     id 'java-library'
-    id 'org.jetbrains.kotlin.jvm'
+    id 'org.jetbrains.kotlin.jvm' version '1.9.0' // 添加 Kotlin 版本
+}
+
+dependencies {
+    // 协程核心库
+    implementation libs.kotlinx.coroutines.core
+    // 可选 - 协程 Android 扩展（如果是 Android 项目）
+    // implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.0'
 }
 
 java {
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
+}
+
+// 如果是多模块项目，建议在根 build.gradle 添加
+kotlin {
+    jvmToolchain(17) // 保持与 Java 版本一致
 }
