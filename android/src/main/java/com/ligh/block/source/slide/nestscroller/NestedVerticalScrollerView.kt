@@ -90,6 +90,7 @@ class NestedVerticalScrollerView @JvmOverloads constructor(
             MotionEvent.ACTION_UP ->{
                 mVelocityTracker?.let {
                     it.computeCurrentVelocity(1000)
+                    // 注意点: 取负值
                     flingInternal(-it.yVelocity.toInt())
                 }
                 recycleVelocityTracker()
