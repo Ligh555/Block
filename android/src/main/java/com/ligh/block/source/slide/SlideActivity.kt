@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
@@ -24,9 +25,30 @@ class SlideActivity : AppCompatActivity() {
 
 
     private fun initView() {
-        viewBinding.root.targetView = viewBinding.space
+
+        viewBinding.run {
+            btOk.setOnClickListener {
+                viewBinding.run {
+                    test1.y = test2.y
+                    test1.z = 6f
+                    test1.setOnClickListener {
+                        Toast.makeText(this@SlideActivity,"1",Toast.LENGTH_SHORT).show()
+                    }
+
+                    test2.setOnClickListener {
+                        Toast.makeText(this@SlideActivity,"2",Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+            btReset.setOnClickListener {
+                root.invalidate()
+            }
+        }
+
+//        viewBinding.root.targetView = viewBinding.space
         viewBinding.rvTest.run {
             layoutManager = LinearLayoutManager(this@SlideActivity)
+            isNestedScrollingEnabled = true
 
             adapter = object : RecyclerView.Adapter<TheViewHolder>() {
                 override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TheViewHolder {

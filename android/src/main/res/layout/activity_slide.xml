@@ -11,16 +11,40 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+    <View
+        android:id="@+id/space"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:background="@color/material_dynamic_tertiary0" />
+    <com.ligh.block.source.slide.nestscroller.example.TestStick
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
         <View
-            android:id="@+id/space"
             android:layout_width="match_parent"
-            android:layout_height="500dp"
-            android:background="@color/material_dynamic_tertiary0" />
+            android:layout_height="50dp"
+            android:background="@color/teal_200"/>
+    </com.ligh.block.source.slide.nestscroller.example.TestStick>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_test"
-            android:layout_width="match_parent"
-            android:layout_height="500dp" />
+
+    <Button
+        android:id="@+id/bt_ok"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ok"/>
+    <Button
+        android:id="@+id/bt_reset"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="reset"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="500dp"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_test"
+        android:layout_width="match_parent"
+        android:layout_height="500dp" />
 
     </LinearLayout>
 

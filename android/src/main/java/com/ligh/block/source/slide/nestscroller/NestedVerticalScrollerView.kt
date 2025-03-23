@@ -16,6 +16,7 @@ import androidx.core.view.NestedScrollingParent3
 import androidx.core.view.NestedScrollingParentHelper
 import androidx.core.view.ViewCompat
 import androidx.core.view.children
+import com.ligh.block.source.slide.nestscroller.strick.StickyProcesser
 import kotlin.math.abs
 
 class NestedVerticalScrollerView @JvmOverloads constructor(
@@ -47,12 +48,17 @@ class NestedVerticalScrollerView @JvmOverloads constructor(
     // 内容总高度
     private var mContentHeight = 0
 
+    private val mStickyProcesser :StickyProcesser by lazy {
+        StickyProcesser(this)
+    }
+
     init {
         orientation = VERTICAL
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+        mStickyProcesser.setStickyChildren()
         mContentHeight = 0
         for (child in children) {
             val lp = child.layoutParams
@@ -220,6 +226,7 @@ class NestedVerticalScrollerView @JvmOverloads constructor(
         scrollBy(0, finalY)
         consumed[0] = 0
         consumed[1] = scrollY - origin
+        mStickyProcesser.sticky()
     }
 
     // 惯性滑动
