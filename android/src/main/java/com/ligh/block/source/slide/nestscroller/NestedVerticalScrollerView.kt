@@ -25,17 +25,26 @@ class NestedVerticalScrollerView @JvmOverloads constructor(
         const val TAG = "NestedVerticalScrollerView"
     }
 
+    // 嵌套滑动辅助类：父视图
     private var mParentHelper: NestedScrollingParentHelper = NestedScrollingParentHelper(this)
+
+    // 嵌套滑动辅助类：子视图
     private val mChildHelper: NestedScrollingChildHelper = NestedScrollingChildHelper(this)
+
+    // 系统最小滑动距离，用于判断是否开始滑动
     private val mTouchSlop = ViewConfiguration.get(context).scaledTouchSlop
     private var mIsBeingDragged = false
 
+    // 滑动控制器
     private val mScroller = OverScroller(context)
+
+    // 手势速度跟踪器
     private var mVelocityTracker: VelocityTracker? = null
 
+    // 上一次触摸 Y 坐标
     private var mLastTouchY = 0
 
-
+    // 内容总高度
     private var mContentHeight = 0
 
     init {
@@ -131,10 +140,13 @@ class NestedVerticalScrollerView @JvmOverloads constructor(
                 mVelocityTracker?.addMovement(event)
 
                 val y = event.y.toInt()
-                // 获取滑动的距离 y 方向
                 val dy = mLastTouchY - y
+
+                // 滚动自身（支持嵌套预处理）
                 val consumed = IntArray(2)
-                scrollerSelf(dy,consumed)
+                scrollerSelf(dy, consumed)
+
+                // 修正 lastTouchY，考虑被嵌套父消耗的滑动量
                 mLastTouchY = y - consumed[1]
             }
 
@@ -164,16 +176,18 @@ class NestedVerticalScrollerView @JvmOverloads constructor(
 
     override fun computeScroll() {
         if (mScroller.computeScrollOffset()) {
+            // 惯性滑动中处理嵌套滑动
             scrollerSelf(mScroller.currY - scrollY, IntArray(2))
             ViewCompat.postInvalidateOnAnimation(this)
         }
     }
 
-    // 注意点: 要重写此方法，不然获取的状态位是错误的
+    // 注意点: 修复嵌套滑动状态判断，必须重写
     override fun getNestedScrollAxes(): Int {
         return mParentHelper.nestedScrollAxes
     }
 
+    // 滚动自身并处理嵌套滚动流程
     fun scrollerSelf(dy: Int, consumed: IntArray) {
         if (dispatchNestedPreScroll(0, dy, consumed, null)) {
             Log.i(TAG, "dy: $dy, consumed: ${consumed[1]}")
@@ -198,6 +212,7 @@ class NestedVerticalScrollerView @JvmOverloads constructor(
         }
     }
 
+    // 实际滚动逻辑，边界控制 + 消费记录
     private fun scrollerInternal(dy: Int, consumed: IntArray) {
         val origin = scrollY
         val finalY = dy.coerceIn(-scrollY,mContentHeight  - height - scrollY )
@@ -207,6 +222,7 @@ class NestedVerticalScrollerView @JvmOverloads constructor(
         consumed[1] = scrollY - origin
     }
 
+    // 惯性滑动
     private fun flingInternal(velocityY: Int) {
         val maxScrollY = (mContentHeight - height).coerceAtLeast(0)
         mScroller.fling(
@@ -219,7 +235,7 @@ class NestedVerticalScrollerView @JvmOverloads constructor(
         ViewCompat.postInvalidateOnAnimation(this)
     }
 
-
+    //===================VelocityTracker start==================
     private fun initOrResetVelocityTracker() {
         if (mVelocityTracker == null) {
             mVelocityTracker = VelocityTracker.obtain()
@@ -240,8 +256,9 @@ class NestedVerticalScrollerView @JvmOverloads constructor(
             mVelocityTracker = null
         }
     }
+    //===================VelocityTracker start==================
 
-
+    //===================child start==================
     override fun startNestedScroll(axes: Int, type: Int): Boolean {
         return mChildHelper.startNestedScroll(axes, type)
     }
@@ -301,6 +318,18 @@ class NestedVerticalScrollerView @JvmOverloads constructor(
         return mChildHelper.dispatchNestedPreScroll(dx, dy, consumed, offsetInWindow, type)
     }
 
+    override fun dispatchNestedFling(
+        velocityX: Float,
+        velocityY: Float,
+        consumed: Boolean
+    ): Boolean {
+        return mChildHelper.dispatchNestedFling(velocityX, velocityY, consumed)
+    }
+
+    //===================child end==================
+
+    //===================parent start==================
+
     override fun onStartNestedScroll(child: View, target: View, axes: Int, type: Int): Boolean {
         return (axes and ViewCompat.SCROLL_AXIS_VERTICAL) != 0
     }
@@ -345,14 +374,6 @@ class NestedVerticalScrollerView @JvmOverloads constructor(
         }
     }
 
-    override fun dispatchNestedFling(
-        velocityX: Float,
-        velocityY: Float,
-        consumed: Boolean
-    ): Boolean {
-        return mChildHelper.dispatchNestedFling(velocityX, velocityY, consumed)
-    }
-
     override fun onNestedFling(
         target: View,
         velocityX: Float,
@@ -370,6 +391,8 @@ class NestedVerticalScrollerView @JvmOverloads constructor(
     override fun onNestedPreFling(target: View, velocityX: Float, velocityY: Float): Boolean {
         return mChildHelper.dispatchNestedPreFling(velocityX, velocityY)
     }
+
+    //===================parent start==================
 
 
 }
