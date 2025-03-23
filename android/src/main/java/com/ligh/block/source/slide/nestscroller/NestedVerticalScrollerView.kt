@@ -16,8 +16,6 @@ import androidx.core.view.NestedScrollingParent3
 import androidx.core.view.NestedScrollingParentHelper
 import androidx.core.view.ViewCompat
 import androidx.core.view.children
-import com.ligh.base.ext.dp2px
-import com.ligh.block.source.slide.nestscroller.NestedVerticalScrollerViewTest.Companion
 import kotlin.math.abs
 
 class NestedVerticalScrollerView @JvmOverloads constructor(
@@ -35,7 +33,6 @@ class NestedVerticalScrollerView @JvmOverloads constructor(
     private val mScroller = OverScroller(context)
     private var mVelocityTracker: VelocityTracker? = null
 
-    private var mLastTouchX = 0
     private var mLastTouchY = 0
 
 
@@ -76,12 +73,11 @@ class NestedVerticalScrollerView @JvmOverloads constructor(
             MotionEvent.ACTION_MOVE -> {
                 val y = ev.y.toInt()
                 val yDiff: Int = abs((y - mLastTouchY))
-                if (yDiff > mTouchSlop
-                    && (nestedScrollAxes and ViewCompat.SCROLL_AXIS_VERTICAL) == 0
-                ) {
+                // 注意点: 添加标志位判断(nestedScrollAxes and SCROLL_AXIS_VERTICAL) == 0
+                //嵌套滑动无需拦截
+                if (yDiff > mTouchSlop && (nestedScrollAxes and SCROLL_AXIS_VERTICAL) == 0) {
                     mIsBeingDragged = true
-                    mLastTouchX = ev.rawX.toInt()
-                    mLastTouchY = ev.rawY.toInt()
+                    mLastTouchY = ev.y.toInt()
                     initVelocityTrackerIfNotExists()
                     mVelocityTracker?.addMovement(ev)
                     parent?.requestDisallowInterceptTouchEvent(true)
@@ -101,8 +97,7 @@ class NestedVerticalScrollerView @JvmOverloads constructor(
                 mScroller.computeScrollOffset()
                 mIsBeingDragged = !mScroller.isFinished
 
-                mLastTouchX = ev.rawX.toInt()
-                mLastTouchY = ev.rawY.toInt()
+                mLastTouchY = ev.y.toInt()
                 startNestedScroll(ViewCompat.SCROLL_AXIS_VERTICAL)
             }
 
@@ -118,7 +113,7 @@ class NestedVerticalScrollerView @JvmOverloads constructor(
     * The only time we want to intercept motion events is if we are in the
     * drag mode.
     */
-        return false
+        return mIsBeingDragged
     }
 
 
@@ -128,7 +123,6 @@ class NestedVerticalScrollerView @JvmOverloads constructor(
                 initOrResetVelocityTracker()
                 mVelocityTracker?.addMovement(event)
 
-                mLastTouchX = event.x.toInt()
                 mLastTouchY = event.y.toInt()
             }
             MotionEvent.ACTION_MOVE -> {
@@ -136,30 +130,12 @@ class NestedVerticalScrollerView @JvmOverloads constructor(
                 initVelocityTrackerIfNotExists()
                 mVelocityTracker?.addMovement(event)
 
-                val x = event.x.toInt()
                 val y = event.y.toInt()
-                // 获取滑动的距离 x 方向
-                val dx = mLastTouchX - x
                 // 获取滑动的距离 y 方向
                 val dy = mLastTouchY - y
-                mLastTouchX = x.toInt()
-                mLastTouchY = y.toInt()
-
                 val consumed = IntArray(2)
-                if (dispatchNestedPreScroll(dx, dy, consumed, null)) {
-                    Log.i(com.ligh.block.source.slide.nestscroller.NestedVerticalScrollerViewTest.TAG, "dy: $dy, consumed: ${consumed[1]}")
-                    // 减去父 View 消耗的距离，如果还有剩余，子 View 消耗
-                    var remainingDy = dy - consumed[1]
-                    if (remainingDy != 0) {
-                        //子view自己消费
-                        scrollerInternal(remainingDy, consumed)
-                        // 分发给父view.nestedScroll
-                        dispatchNestedScroll(0, consumed[1], 0, remainingDy - consumed[1], null, ViewCompat.TYPE_TOUCH)
-                    }
-                } else {
-                    // 父 View 不能滑动了，子 View 自己消耗掉
-                    scrollerInternal(dy, IntArray(2))
-                }
+                scrollerSelf(dy,consumed)
+                mLastTouchY = y - consumed[1]
             }
 
             MotionEvent.ACTION_UP ->{
@@ -188,9 +164,37 @@ class NestedVerticalScrollerView @JvmOverloads constructor(
 
     override fun computeScroll() {
         if (mScroller.computeScrollOffset()) {
-            val currY = mScroller.currY
-            scrollTo(0, currY)
+            scrollerSelf(mScroller.currY - scrollY, IntArray(2))
             ViewCompat.postInvalidateOnAnimation(this)
+        }
+    }
+
+    // 注意点: 要重写此方法，不然获取的状态位是错误的
+    override fun getNestedScrollAxes(): Int {
+        return mParentHelper.nestedScrollAxes
+    }
+
+    fun scrollerSelf(dy: Int, consumed: IntArray) {
+        if (dispatchNestedPreScroll(0, dy, consumed, null)) {
+            Log.i(TAG, "dy: $dy, consumed: ${consumed[1]}")
+            // 减去父 View 消耗的距离，如果还有剩余，子 View 消耗
+            var remainingDy = dy - consumed[1]
+            if (remainingDy != 0) {
+                //子view自己消费
+                scrollerInternal(remainingDy, consumed)
+                // 分发给父view.nestedScroll
+                dispatchNestedScroll(
+                    0,
+                    consumed[1],
+                    0,
+                    remainingDy - consumed[1],
+                    null,
+                    ViewCompat.TYPE_TOUCH
+                )
+            }
+        } else {
+            // 父 View 不能滑动了，子 View 自己消耗掉
+            scrollerInternal(dy, IntArray(2))
         }
     }
 
@@ -318,7 +322,9 @@ class NestedVerticalScrollerView @JvmOverloads constructor(
         type: Int,
         consumed: IntArray
     ) {
-        scrollerInternal(dyUnconsumed,consumed)
+        if (dyUnconsumed < 0){
+            scrollerInternal(dyUnconsumed, consumed)
+        }
     }
 
     override fun onNestedScroll(
@@ -329,11 +335,14 @@ class NestedVerticalScrollerView @JvmOverloads constructor(
         dyUnconsumed: Int,
         type: Int
     ) {
-        scrollerInternal(dyUnconsumed, IntArray(2))
+        onNestedScroll(target, dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed, type,IntArray(2))
     }
 
     override fun onNestedPreScroll(target: View, dx: Int, dy: Int, consumed: IntArray, type: Int) {
-        dispatchNestedPreScroll(dx, dy, consumed, null, type)
+        Log.i(TAG,"onNestedPreScroll dy $dy")
+        if (dy > 0){
+            scrollerInternal(dy, consumed)
+        }
     }
 
     override fun dispatchNestedFling(
