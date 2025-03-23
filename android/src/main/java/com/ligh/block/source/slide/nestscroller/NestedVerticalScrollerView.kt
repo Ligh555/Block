@@ -22,10 +22,15 @@ import kotlin.math.abs
 
 class NestedVerticalScrollerView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null
-) : LinearLayout(context, attrs){
+) : LinearLayout(context, attrs), NestedScrollingParent3, NestedScrollingChild3{
     companion object {
         const val TAG = "NestedVerticalScrollerView"
     }
+
+    private var mParentHelper: NestedScrollingParentHelper = NestedScrollingParentHelper(this)
+    private val mChildHelper: NestedScrollingChildHelper = NestedScrollingChildHelper(this)
+    private val mTouchSlop = ViewConfiguration.get(context).scaledTouchSlop
+    private var mIsBeingDragged = false
 
     private val mScroller = OverScroller(context)
     private var mVelocityTracker: VelocityTracker? = null
@@ -62,6 +67,61 @@ class NestedVerticalScrollerView @JvmOverloads constructor(
         }
     }
 
+    override fun onInterceptTouchEvent(ev: MotionEvent): Boolean {
+        val action = ev.action
+        if ((action == MotionEvent.ACTION_MOVE) && mIsBeingDragged) {
+            return true
+        }
+        when (action and MotionEvent.ACTION_MASK) {
+            MotionEvent.ACTION_MOVE -> {
+                val y = ev.y.toInt()
+                val yDiff: Int = abs((y - mLastTouchY))
+                if (yDiff > mTouchSlop
+                    && (nestedScrollAxes and ViewCompat.SCROLL_AXIS_VERTICAL) == 0
+                ) {
+                    mIsBeingDragged = true
+                    mLastTouchX = ev.rawX.toInt()
+                    mLastTouchY = ev.rawY.toInt()
+                    initVelocityTrackerIfNotExists()
+                    mVelocityTracker?.addMovement(ev)
+                    parent?.requestDisallowInterceptTouchEvent(true)
+                }
+            }
+
+            MotionEvent.ACTION_DOWN -> {
+                initOrResetVelocityTracker()
+                mVelocityTracker?.addMovement(ev)
+                /*
+             * If being flinged and user touches the screen, initiate drag;
+             * otherwise don't. mScroller.isFinished should be false when
+             * being flinged. We also want to catch the edge glow and start dragging
+             * if one is being animated. We need to call computeScrollOffset() first so that
+             * isFinished() is correct.
+            */
+                mScroller.computeScrollOffset()
+                mIsBeingDragged = !mScroller.isFinished
+
+                mLastTouchX = ev.rawX.toInt()
+                mLastTouchY = ev.rawY.toInt()
+                startNestedScroll(ViewCompat.SCROLL_AXIS_VERTICAL)
+            }
+
+            MotionEvent.ACTION_CANCEL, MotionEvent.ACTION_UP -> {
+                /* Release the drag */
+                mIsBeingDragged = false
+                recycleVelocityTracker()
+                stopNestedScroll()
+            }
+        }
+
+        /*
+    * The only time we want to intercept motion events is if we are in the
+    * drag mode.
+    */
+        return false
+    }
+
+
     override fun onTouchEvent(event: MotionEvent): Boolean {
         when (event.actionMasked) {
             MotionEvent.ACTION_DOWN ->{
@@ -84,7 +144,22 @@ class NestedVerticalScrollerView @JvmOverloads constructor(
                 val dy = mLastTouchY - y
                 mLastTouchX = x.toInt()
                 mLastTouchY = y.toInt()
-                scrollerInternal(dy, intArrayOf(2))
+
+                val consumed = IntArray(2)
+                if (dispatchNestedPreScroll(dx, dy, consumed, null)) {
+                    Log.i(com.ligh.block.source.slide.nestscroller.NestedVerticalScrollerViewTest.TAG, "dy: $dy, consumed: ${consumed[1]}")
+                    // 减去父 View 消耗的距离，如果还有剩余，子 View 消耗
+                    var remainingDy = dy - consumed[1]
+                    if (remainingDy != 0) {
+                        //子view自己消费
+                        scrollerInternal(remainingDy, consumed)
+                        // 分发给父view.nestedScroll
+                        dispatchNestedScroll(0, consumed[1], 0, remainingDy - consumed[1], null, ViewCompat.TYPE_TOUCH)
+                    }
+                } else {
+                    // 父 View 不能滑动了，子 View 自己消耗掉
+                    scrollerInternal(dy, IntArray(2))
+                }
             }
 
             MotionEvent.ACTION_UP ->{
@@ -120,9 +195,12 @@ class NestedVerticalScrollerView @JvmOverloads constructor(
     }
 
     private fun scrollerInternal(dy: Int, consumed: IntArray) {
+        val origin = scrollY
         val finalY = dy.coerceIn(-scrollY,mContentHeight  - height - scrollY )
         Log.i(TAG, "scrollBy: $dy")
         scrollBy(0, finalY)
+        consumed[0] = 0
+        consumed[1] = scrollY - origin
     }
 
     private fun flingInternal(velocityY: Int) {
@@ -157,6 +235,131 @@ class NestedVerticalScrollerView @JvmOverloads constructor(
             mVelocityTracker?.recycle()
             mVelocityTracker = null
         }
+    }
+
+
+    override fun startNestedScroll(axes: Int, type: Int): Boolean {
+        return mChildHelper.startNestedScroll(axes, type)
+    }
+
+    override fun stopNestedScroll(type: Int) {
+        return mChildHelper.stopNestedScroll(type)
+    }
+
+    override fun hasNestedScrollingParent(type: Int): Boolean {
+        return mChildHelper.hasNestedScrollingParent(type)
+    }
+
+    override fun dispatchNestedScroll(
+        dxConsumed: Int,
+        dyConsumed: Int,
+        dxUnconsumed: Int,
+        dyUnconsumed: Int,
+        offsetInWindow: IntArray?,
+        type: Int,
+        consumed: IntArray
+    ) {
+        mChildHelper.dispatchNestedScroll(
+            dxConsumed,
+            dyConsumed,
+            dxUnconsumed,
+            dyUnconsumed,
+            offsetInWindow,
+            type
+        )
+    }
+
+    override fun dispatchNestedScroll(
+        dxConsumed: Int,
+        dyConsumed: Int,
+        dxUnconsumed: Int,
+        dyUnconsumed: Int,
+        offsetInWindow: IntArray?,
+        type: Int
+    ): Boolean {
+        return mChildHelper.dispatchNestedScroll(
+            dxConsumed,
+            dyConsumed,
+            dxUnconsumed,
+            dyUnconsumed,
+            offsetInWindow,
+            type
+        )
+    }
+
+    override fun dispatchNestedPreScroll(
+        dx: Int,
+        dy: Int,
+        consumed: IntArray?,
+        offsetInWindow: IntArray?,
+        type: Int
+    ): Boolean {
+        return mChildHelper.dispatchNestedPreScroll(dx, dy, consumed, offsetInWindow, type)
+    }
+
+    override fun onStartNestedScroll(child: View, target: View, axes: Int, type: Int): Boolean {
+        return (axes and ViewCompat.SCROLL_AXIS_VERTICAL) != 0
+    }
+
+    override fun onNestedScrollAccepted(child: View, target: View, axes: Int, type: Int) {
+        return mParentHelper.onNestedScrollAccepted(child, target, axes, type)
+    }
+
+    override fun onStopNestedScroll(target: View, type: Int) {
+        return mParentHelper.onStopNestedScroll(target, type)
+    }
+
+    override fun onNestedScroll(
+        target: View,
+        dxConsumed: Int,
+        dyConsumed: Int,
+        dxUnconsumed: Int,
+        dyUnconsumed: Int,
+        type: Int,
+        consumed: IntArray
+    ) {
+        scrollerInternal(dyUnconsumed,consumed)
+    }
+
+    override fun onNestedScroll(
+        target: View,
+        dxConsumed: Int,
+        dyConsumed: Int,
+        dxUnconsumed: Int,
+        dyUnconsumed: Int,
+        type: Int
+    ) {
+        scrollerInternal(dyUnconsumed, IntArray(2))
+    }
+
+    override fun onNestedPreScroll(target: View, dx: Int, dy: Int, consumed: IntArray, type: Int) {
+        dispatchNestedPreScroll(dx, dy, consumed, null, type)
+    }
+
+    override fun dispatchNestedFling(
+        velocityX: Float,
+        velocityY: Float,
+        consumed: Boolean
+    ): Boolean {
+        return mChildHelper.dispatchNestedFling(velocityX, velocityY, consumed)
+    }
+
+    override fun onNestedFling(
+        target: View,
+        velocityX: Float,
+        velocityY: Float,
+        consumed: Boolean
+    ): Boolean {
+        if (!consumed){
+            dispatchNestedFling(0f, velocityY, true)
+            flingInternal(velocityY.toInt())
+            return true
+        }
+        return false
+    }
+
+    override fun onNestedPreFling(target: View, velocityX: Float, velocityY: Float): Boolean {
+        return mChildHelper.dispatchNestedPreFling(velocityX, velocityY)
     }
 
 
