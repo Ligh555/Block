@@ -89,7 +89,8 @@ class NestedVerticalScrollerView @JvmOverloads constructor(
 
             MotionEvent.ACTION_UP ->{
                 mVelocityTracker?.let {
-                    flingInternal(it.yVelocity.toInt())
+                    it.computeCurrentVelocity(1000)
+                    flingInternal(-it.yVelocity.toInt())
                 }
                 recycleVelocityTracker()
             }
@@ -104,7 +105,7 @@ class NestedVerticalScrollerView @JvmOverloads constructor(
         // 注意点: 滑动边界处理
         // 垂直滑动边界
         val maxScrollY = mContentHeight - height
-        val finalY = y.coerceIn(-scrollY, maxScrollY - scrollY)
+        val finalY = y.coerceIn(0, maxScrollY)
         Log.i(TAG, "scrollTo: finalY $finalY")
         super.scrollTo(x, finalY)
     }
@@ -124,13 +125,13 @@ class NestedVerticalScrollerView @JvmOverloads constructor(
     }
 
     private fun flingInternal(velocityY: Int) {
-        val maxScrollY = mContentHeight - height
+        val maxScrollY = (mContentHeight - height).coerceAtLeast(0)
         mScroller.fling(
-            scrollX, scrollY, // 当前滚动位置
-            0, velocityY, // 速度
-            0, 0, // X 方向边界（不需要水平滚动）
-            -maxScrollY, maxScrollY, // Y 方向边界
-            0, 15f.dp2px().toInt() // 过度滚动距离
+            scrollX, scrollY,
+            0, velocityY,
+            0, 0,
+            0, maxScrollY,
+            0, 0
         )
         ViewCompat.postInvalidateOnAnimation(this)
     }
