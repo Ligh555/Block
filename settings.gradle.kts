@@ -10,6 +10,7 @@ pluginManagement {
         maven {
             setUrl("https://maven.aliyun.com/repository/jcenter")
         }
+        maven { url = uri("https://repo.huaweicloud.com/repository/maven") }
         maven {
             setUrl("https://maven.aliyun.com/repository/gradle-plugin")
         }

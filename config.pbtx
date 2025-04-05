@@ -1,0 +1,58 @@
+buffers {
+  size_kb: 65536
+  fill_policy: DISCARD
+}
+buffers {
+  size_kb: 4096
+  fill_policy: DISCARD
+}
+data_sources {
+  config {
+    name: "android.log"
+    android_log_config {
+      log_ids: LID_CRASH
+      log_ids: LID_DEFAULT
+      log_ids: LID_KERNEL
+    }
+  }
+}
+data_sources {
+  config {
+    name: "android.surfaceflinger.frametimeline"
+  }
+}
+data_sources {
+  config {
+    name: "linux.perf"
+    perf_event_config {
+      timebase {
+        frequency: 100
+        timestamp_clock: PERF_CLOCK_MONOTONIC
+      }
+      callstack_sampling {
+      }
+    }
+  }
+}
+data_sources {
+  config {
+    name: "linux.ftrace"
+    ftrace_config {
+      ftrace_events: "sched/sched_process_exit"
+      ftrace_events: "sched/sched_process_free"
+      ftrace_events: "task/task_newtask"
+      ftrace_events: "task/task_rename"
+      symbolize_ksyms: true
+      disable_generic_events: true
+    }
+  }
+}
+data_sources {
+  config {
+    name: "linux.process_stats"
+    process_stats_config {
+      scan_all_processes_on_start: true
+    }
+  }
+}
+duration_ms: 5000

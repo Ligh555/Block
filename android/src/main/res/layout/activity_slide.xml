@@ -1,15 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.ligh.block.source.slide.CustomNestScrollerView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<com.ligh.block.source.slide.nestscroller.NestedVerticalScrollerView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".slide.SlideActivity">
 
-    <LinearLayout
+    <View
+        android:id="@+id/test1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="50dp"
+        android:background="@color/purple_200"/>
+
+    <View
+        android:id="@+id/test2"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/teal_200"/>
+
+    <com.ligh.block.source.slide.nestscroller.example.TestStick
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <View
+            android:id="@+id/test3"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/_F08462"/>
+    </com.ligh.block.source.slide.nestscroller.example.TestStick>
+
 
     <View
         android:id="@+id/space"
@@ -46,6 +63,5 @@
         android:layout_width="match_parent"
         android:layout_height="500dp" />
 
-    </LinearLayout>
 
-</com.ligh.block.source.slide.CustomNestScrollerView>
+</com.ligh.block.source.slide.nestscroller.NestedVerticalScrollerView>

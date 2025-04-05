@@ -1,6 +1,7 @@
 package com.ligh.blog
 
 import android.app.Application
+import android.os.Handler
 import android.os.Looper
 import com.ligh.block.source.exception.CrashHandler
 import com.ligh.block.source.handler.LooperMonitor

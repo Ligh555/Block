@@ -26,6 +26,11 @@
         android:layout_height="50dp"
         android:text="其他"/>
 
+    <ImageView
+        android:id="@+id/iv_test"
+        android:layout_width="@dimen/_100dp"
+        android:layout_height="@dimen/_100dp"
+        android:scaleType="centerCrop" />
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
