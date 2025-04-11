@@ -14,7 +14,7 @@
         android:theme="@style/Theme.Blog"
         tools:targetApi="31">
         <activity
-            android:name=".activity.RecycleViewActivity"
+            android:name="com.ligh.chart.ChartActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.Blog">

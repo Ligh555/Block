@@ -1,22 +1,17 @@
 plugins {
-    id("com.android.application")
+    id("com.android.library")
     id("org.jetbrains.kotlin.android")
-    kotlin("kapt")
-    id("com.google.dagger.hilt.android")
 }
 
 android {
-    namespace = "com.ligh.blog"
+    namespace = "com.ligh.chart"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.ligh.blog"
         minSdk = 23
-        targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
@@ -35,24 +30,15 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
     buildFeatures {
         viewBinding = true
-        aidl = true
     }
 }
 
 dependencies {
-    implementation(project(":android"))
-    implementation(project(":base"))
-    implementation(project(":ipc"))
-    implementation(project(":biometric"))
-    implementation(project(":wheelView"))
-    implementation(project(":chart"))
-    implementation(libs.bundles.navigation.ktx)
-    implementation(libs.bundles.andorid.base)
-    implementation(libs.bundles.hilt)
-    kapt(libs.bundles.hilt.compiler)
 
-    debugImplementation("com.squareup.leakcanary:leakcanary-android:2.7")
-    implementation ("com.bytedance.tools.codelocator:codelocator-lancet-all:2.0.4")
+    implementation(project(":base"))
+    implementation(libs.bundles.andorid.base)
+    implementation(libs.activity)
 }
